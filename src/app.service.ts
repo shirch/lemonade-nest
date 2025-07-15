@@ -7,10 +7,6 @@ import { Entity } from './entity/entity.interface';
 export class AppService {
   private readonly entities: Entity[] = [];
 
-  getHello(): string {
-    return 'Hello World!';
-  }
-
   create(entity: CreateEntityDto): Entity {
     const newEntity: Entity = { ...entity, id: uuidv4() };
     this.entities.push(newEntity);

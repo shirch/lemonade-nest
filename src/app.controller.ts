@@ -27,12 +27,7 @@ export class AppController {
     return name;
   }
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
-  @Post('')
+  @Post()
   create(@Body() entity: CreateEntityDto): Entity {
     return this.appService.create(entity);
   }
