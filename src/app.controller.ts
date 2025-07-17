@@ -1,44 +1,24 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CreateEntityDto } from './entity/create.entity.dto';
-import { Entity } from './entity/entity.interface';
-import { UpdateEntityDto } from './entity/update.entity.dto';
 
-@Controller('entities')
+@Controller('words')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get(':id')
-  findOne(@Param('id') id: string): string {
-    return id;
-  }
-
-  @Get()
-  find(@Query('name') name: string): string {
-    return name;
-  }
-
+  /**
+   * Accepts: { "url": "http://norvig.com/big.txt" }
+   * curl -X POST http://localhost:3000/words \
+   *   -H 'Content-Type: application/json' \
+   *   -d '{"url": "http://norvig.com/big.txt"}'
+   */
   @Post()
-  create(@Body() entity: CreateEntityDto): Entity {
-    return this.appService.create(entity);
+  countFromUrl(@Body() body: { url: string }): void {
+    const url = body.url;
+    this.appService.count(url);
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() entity: UpdateEntityDto): void {
-    // This method is not implemented yet
-  }
-
-  @Delete(':id')
-  delete(@Param('id') id: string): void {
-    // This method is not implemented yet
+  @Get(':word')
+  getWordCount(@Param('word') word: string): number {
+    return this.appService.getCount(word);
   }
 }
